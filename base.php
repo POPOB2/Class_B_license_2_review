@@ -1,14 +1,14 @@
 <?php
-date_default_timezone_set('Asia/Taipei');
 session_start();
+date_default_timezone_set('Asia/Taipei');
 class DB{
-    protected $dsn='mysql:host=localhost; charset=utf8; dbnamr=db03';
+    protected $dsn='mysql:host=localhost; charset=utf8; dbname=class_b_2';
     protected $user='root';
     protected $pw='';
     public $table;
     protected $pdo;
 
-    public function __construct($table){
+    function __construct($table){
         $this->table=$table;
         $this->pdo=new PDO($this->dsn,$this->user,$this->pw);
     }
@@ -23,9 +23,9 @@ class DB{
         if(isset($arg[0])){
             if(is_array($arg[0])){
                 foreach($arg[0] as $key => $value){
-                    $tmp[]="`$key`=`$value`";
+                    $tmp[]="`$key`='$value'";
                 }
-                $sql.="WHERE".join("AND",$tmp);
+                $sql.=" WHERE ".join(" AND ",$tmp);
             }else{
                 $sql.=$arg[0];
             }
@@ -49,13 +49,13 @@ class DB{
         // if(isset($id[0])){                // 刪除
             if(is_array($id[0])){                   // 更改 : $id -> $arg
                 foreach($id[0] as $key => $value){  // 更改 : $id -> $arg
-                    $tmp[]="`$key`=`$value`";
+                    $tmp[]="`$key`='$value'";
                 }
-                $sql.="WHERE".join("AND",$tmp);
+                $sql.=" WHERE ".join(" AND ", $tmp); // 注意空白一定要寫, 因為寫成SQL語法, 接在上方table之後
             }else{
                 // $sql.=$arg[0];
                 // $sql.=$id[0]; 
-                $sql.="WHERE `id`='$id'";          // 更改 : // $sql.=$arg[0]; -> $sql.="WHERE `id`='$id'";  
+                $sql.=" WHERE `id`='$id'";          // 更改 : // $sql.=$arg[0]; -> $sql.="WHERE `id`='$id'";  
             }
         // }                                // 刪除
         // if(isset($id[1])){               // 刪除
@@ -78,7 +78,7 @@ public function del($id){
     
     if(is_array($id[0])){
         foreach($id[0] as $key => $value){
-            $tmp[]="`$key`=`$value`";
+            $tmp[]="`$key`='$value'";
         }
         $sql.="WHERE".join("AND",$tmp);
     }else{
@@ -97,7 +97,7 @@ public function save1($array){
         //  並把foreach的$id[0]改成$array
         //  foreach($id[0] as $key => $value){
             foreach($array as $key => $value){
-                $tmp[]="`$key`=`$value`";
+                $tmp[]="`$key`='$value'";
             }
             //  新增這段 更新用的sql語法
             $sql="UPDATE $this->table SET ".join(',',$tmp)." WHERE `id`='{$array['id']}'";
@@ -121,6 +121,7 @@ public function save1($array){
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------
 // 方案二.
 // 總結 : 
+// 0. 將function改為save($array)
 // 1. 刪除$sql
 // 2. 將if的is_array($)改為isset, 其isset的內容 改為 $array['id']
 // 3. 在該isset執行區域的 $id[0] 改為 $array
@@ -133,7 +134,7 @@ public function save($array){
         if(isset($array['id'])){
          // foreach($id[0] as $key => $value){   // 更改 : $id[0] -> $array
             foreach($array as $key => $value){
-                $tmp[]="`$key`=`$value`";
+                $tmp[]="`$key`='$value'";
             }
          // $sql.="WHERE".join("AND",$tmp);      // 更改
             $sql="UPDATE $this->table SET ".join(',',$tmp)." WHERE `id`='{$array['id']}'";
@@ -160,7 +161,7 @@ public function math($math,$col,...$arg){
     if(isset($arg[0])){
         if(is_array($arg[0])){
             foreach($arg[0] as $key => $value){
-                $tmp[]="`$key`=`$value`";
+                $tmp[]="`$key`='$value'";
             }
             $sql.="WHERE".join("AND",$tmp);
         }else{
@@ -175,14 +176,16 @@ return $this->pdo->query($sql)->fetchColumn();
 }
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 // 萬用
-public function q($sql){
+function q($sql){
     return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 }
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------
 // 簡化導向
-public function to($url){
+function to($url){
     header("location:".$url);
 }
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -192,10 +195,47 @@ function dd($array){
     echo "<pre>";
     print_r($array);
     echo "</pre>";
-
 }
 
 
+}  // Class DB的結尾
+// ------------------------------------------------------DB------------------------------------------------------
 
+$Total=new DB('total'); // 計算拜訪總人數的資料表
+$User=new DB('user');
+
+// 判斷有無session
+if(!isset($_SESSION['total'])){ // 若無
+    $chkDate=$Total->math('count','id',['date'=>date("Y-m-d")]); // 產生 $chkDate = Total表 計算id數 , 且date欄 為 目前時間
+    // 加上判斷
+    if($chkDate>=1){ // 若$chkDate 有值時(true)
+        $total=$Total->find(['date'=>date("Y-m-d")]); // 新增$total 為 total表 查詢單筆 ( date欄 為 目前的時間 )
+        $total['total']++; // 在total欄+1
+        $Total->save($total); // 對Total表 存檔 存的資料為上述目前時間+1過的值
+        $_SESSION['total']=1; // 產生一組session名為total
+    }else{ // 若$chkDate為0==沒有值== SESSION的total有值
+        $Total->save(['date'=>date("Y-m-d"),'total'=>1]); // 把Total表 儲存 時間欄為目前時間  , total表設為1(true)
+        $_SESSION['total']=1; // 產生一組session 名為total 值為1
+    }
 }
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// $Total=new DB('total');
+// if(!isset($_SESSION['total'])){
+//     $chkDate=$Total->math('count','id',['date'=>date("Y-m-d")]);
+//     if($chkDate>=1){
+//         $total=$Total->find(['date'=>date("Y-m-d")]);
+//         $total['total']++;
+//         $Total->save($total);
+//         $_SESSION['total']=1;
+//     }else{
+//         $Total->save(['date'=>date("Y-m-d"),'total'=>1]);
+//         $_SESSION['total']=1;
+//     }
+// }
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 ?>
