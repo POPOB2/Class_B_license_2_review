@@ -137,11 +137,14 @@ public function save($array){
                 $tmp[]="`$key`='$value'";
             }
          // $sql.="WHERE".join("AND",$tmp);      // 更改
-            $sql="UPDATE $this->table SET ".join(',',$tmp)." WHERE `id`='{$array['id']}'";
+            $sql="UPDATE $this->table SET "
+            .join(',',$tmp)
+            ." WHERE `id`='{$array['id']}'";
         }else{
             
          // $sql.="WHERE `id`=`$array`";         // 更改
-            $sql="insert into $this->table (`".join("`,`",array_keys($array))."`)
+            $sql="insert into $this->table 
+            (`".join("`,`",array_keys($array))."`)
             values('".join("','",$array)."')";
         }
         return $this->pdo->exec($sql);
