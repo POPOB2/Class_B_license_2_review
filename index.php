@@ -55,7 +55,17 @@ include_once "base.php";
      				</marquee>
 
                 	<span style="width:18%; display:inline-block;">
+					<?php
+					if(isset($_SESSION['user'])){
+					?>
+					歡迎,<?=$_SESSION['user'];?>
+					<?php
+					}else{
+					?>
                     <a href="?do=login">會員登入</a>
+					<?php
+					}
+					?>
                     </span>
 
 
