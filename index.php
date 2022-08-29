@@ -40,13 +40,13 @@ include_once "base.php";
 			</a>
         </div>
         <div id="mm">
-        	<div class="hal" id="lef">
-            	                	    <a class="blo" href="?do=po">分類網誌</a>
-               	                     	    <a class="blo" href="?do=news">最新文章</a>
-               	                     	    <a class="blo" href="?do=pop">人氣文章</a>
-               	                     	    <a class="blo" href="?do=know">講座訊息</a>
-               	                     	    <a class="blo" href="?do=que">問卷調查</a>
-               	                 </div>
+        		<div class="hal" id="lef">
+            		<a class="blo" href="?do=po">分類網誌</a>
+               		<a class="blo" href="?do=news">最新文章</a>
+               		<a class="blo" href="?do=pop">人氣文章</a>
+               		<a class="blo" href="?do=know">講座訊息</a>
+               		<a class="blo" href="?do=que">問卷調查</a>
+               	</div>
             <div class="hal" id="main">
             	<div>
 					<!-- 複製會員登入的sapn,  放在會員登入上方,  18%改80%, 刪除a標籤, 將sapn改成marquee輸入跑馬燈內容 -->
@@ -57,12 +57,28 @@ include_once "base.php";
                 	<span style="width:18%; display:inline-block;">
 					<?php
 					if(isset($_SESSION['user'])){
+						if($_SESSION['user']==='admin'){
 					?>
+
 					歡迎,<?=$_SESSION['user'];?>
+					<button onclick="location.href='back.php'">管理</button>
+					|
+					<button onclick="logout()">登出</button>
+
 					<?php
 					}else{
 					?>
-                    <a href="?do=login">會員登入</a>
+
+					歡迎,<?=$_SESSION['user'];?>
+					<button onclick="logout()">登出</button>
+
+					<?php
+					}
+					}else{
+					?>
+
+					<a href="?do=login">會員登入</a>
+
 					<?php
 					}
 					?>

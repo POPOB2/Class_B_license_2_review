@@ -19,3 +19,10 @@ function good(id,type,user)
 		}
 	})
 }
+
+// --------------------------新增用於登出的onclick事件--------------------------
+function logout(){
+	$.get("./api/logout.php",()=>{
+		location.reload();
+	})
+}
