@@ -17,8 +17,8 @@
                 <button onclick="$('#acc,#pw').val('')">清除</button>
             </td>
             <td class="r">
-                <a href="do=forgot">找回密碼</a>|
-                <a href="do=reg">重新註冊</a>
+                <a href="?do=forgot">找回密碼</a>|
+                <a href="?do=reg">重新註冊</a>
             </td>
         </tr>
     </table>
