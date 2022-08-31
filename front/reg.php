@@ -30,36 +30,32 @@
     </table>
 </fieldset>
 
-
 <script>
-    // 取得上述傳送過來的資料
     function reg(){
-        let user={
-            acc:$('#acc').val(),
-            pw:$('#pw').val(),
-            pw2:$('#pw2').val(),
-            email:$('#email').val()
+    let user={
+        acc:$("#acc").val(),
+        pw:$("#pw").val(),
+        pw2:$("#pw2").val(),
+        email:$("#email").val()
+    }
+    if(user.acc==''||user.pw==''||user.pw2==''||user.email==''){
+                alert("不可為空")
+            }else if(user.pw!=user.pw2){
+                alert("密碼錯誤")
+            }else{
+                // $.get("./api/chk_acc.php",{acc:user.acc},(res)=>{
+                $.post("./api/chk_acc.php",{acc:user.acc},(res)=>{
+                    if(parseInt(res)==1){
+                        alert("帳號重複")
+                    }else{
+                        $.post("./api/reg.php",user,(res)=>{
+                            alert("歡迎加入")
+                            location.href="?do=login"
+                        })
+                    }
+                })
+            }
         }
+    
 
-        // 新增判斷 , 用於檢查註冊時可能碰到的問題
-        if(user.acc=='' || user.pw=='' || user.pw2=='' || user.email==''){
-            alert("不可為空白")
-        }else if(user.pw!=user.pw2){
-            alert("密碼錯誤")
-        }else{
-            $.get("./api/chk_acc.php",{acc:user.acc},(res)=>{
-                if(parseInt(res)==1){
-                    alert("帳號重複")
-                }else{
-                    $.post("./api/chk_acc.php",user,(res)=>{
-                        alert("註冊完成,歡迎加入")
-                        location.href="?do=login"
-                    })
-                }
-            })
-        }
-
-
-
-    } // function reg 的結尾
 </script>
