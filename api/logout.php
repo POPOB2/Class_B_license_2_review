@@ -1,4 +1,4 @@
 <?php
-session_status();
+session_start();
 unset($_SESSION['user']);
 ?>
