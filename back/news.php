@@ -9,6 +9,16 @@
 
 
         <?php
+            // SET 分頁所需的頁數 相關資料
+            $all=$News->math('count','id'); // 撈資料 計算總筆數
+            $div=3; // 設定幾筆一頁
+            $pqges=ceil($all/$div); // 計算總頁數 : 所有資料 除 3筆一頁
+            $now=$_GET['p']??1; // 取得當前頁
+            $start=($now-1)*$div; // 計算從哪裡開始抓取內容
+
+
+
+            // -------------------------------------------------------------
             $rows=$News->all();
             foreach($rows as $key => $row){
         ?>
@@ -28,7 +38,24 @@
             ?>
 
     </table>
-    <div class="ct">
-        <input type="submit" value="確定修改">
-    </div>
+    <!-- 新增分頁的顯示 用div增設頁碼區塊 -->
+            <div class="ct"> 
+
+                <?php
+                // $i 為頁碼
+                for($i=1;$i<$pages;$i++){
+                    $fontsize=($now==$i)?'24px':'16px'; // 用於當前頁放大數字
+                ?>
+
+                <a href="?do=news&p=<?=$i;?>" style="font-size:<?=$fontsize;?>">
+                    <?=$i;?>
+                </a>
+
+                <?
+                }
+                ?>
+
+            </div>
+    <!-- -----END----- -->
+    <div class="ct"><input type="submit" value="確定修改"></div>
 </form>
