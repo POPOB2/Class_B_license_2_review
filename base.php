@@ -184,6 +184,7 @@ function dd($array){
 $Total=new DB('total'); // 計算拜訪總人數的資料表
 $User=new DB('user');
 $News=new DB('news');
+$Que=new DB('que');
 
 // 判斷有無session
 if(!isset($_SESSION['total'])){ // 若無
