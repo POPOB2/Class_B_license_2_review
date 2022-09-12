@@ -53,7 +53,7 @@
                 
 
                 // $i 為頁碼
-                for($i=1; $i<$pages; $i++){
+                for($i=1; $i<=$pages; $i++){
                     $fontsize=($now==$i)?'24px':'16px'; // 用於當前頁放大數字
                 ?>
                 
@@ -67,6 +67,7 @@
                 // 下一頁的功能
                 if(($now+1)<=$pages){
                     $p=$now+1;
+                    // $p=$pages;
                     echo "<a href='?do=news&p=$p'> > </a>";
                 }
                 ?>

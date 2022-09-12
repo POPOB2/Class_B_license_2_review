@@ -49,7 +49,7 @@
                 }
 
                 
-                for($i=1; $i<$pages; $i++){
+                for($i=1; $i<=$pages; $i++){
                     $fontsize=($now==$i)?'24px':'16px';
                 ?>
                 
