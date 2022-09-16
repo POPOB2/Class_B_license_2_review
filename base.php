@@ -2,9 +2,12 @@
 session_start();
 date_default_timezone_set('Asia/Taipei');
 class DB{
-    protected $dsn='mysql:host=localhost; charset=utf8; dbname=class_b_2';
-    protected $user='root';
-    protected $pw='';
+    // protected $dsn='mysql:host=localhost; charset=utf8; dbname=class_b_2';
+    // protected $user='root';
+    // protected $pw='';
+    protected $dsn='mysql:host=localhost; charset=utf8; dbname=s1110203';
+    protected $user='s1110203';
+    protected $pw='s1110203';
     public $table;
     protected $pdo;
 
