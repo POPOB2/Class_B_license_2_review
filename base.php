@@ -184,10 +184,16 @@ function dd($array){
 
 // ------------------------------------------------------DB------------------------------------------------------
 
-$Total=new DB('total'); // 計算拜訪總人數的資料表
-$User=new DB('user');
-$News=new DB('news');
-$Que=new DB('que');
+// $Total=new DB('total'); // 計算拜訪總人數的資料表
+// $User=new DB('user');
+// $News=new DB('news');
+// $Que=new DB('que');
+
+// ---------------------------------------------
+$Total=new DB('classB_2_total');
+$User=new DB('classB_2_user');
+$News=new DB('classB_2_news');
+$Que=new DB('classB_2_que');
 
 // 判斷有無session
 if(!isset($_SESSION['total'])){ // 若無
