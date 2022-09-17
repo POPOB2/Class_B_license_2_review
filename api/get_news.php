@@ -4,6 +4,6 @@ include_once "../base.php";
 
 $id=$_GET['id'];
 $news=$News->find($id);
-echo nl2br($news['txt']);
+echo nl2br($news['text']);
 
 ?>

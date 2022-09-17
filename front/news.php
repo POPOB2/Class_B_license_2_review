@@ -25,12 +25,12 @@
         <tr>
             <td class="title clo"><?=$row['title'];?></td> <!-- tr僅留這段,加上class:title -->            
             <!-- 新增下述這段顯示部分內文 -->
-            <!-- <td>< ?=mb_substr($row['txt'],0,20);?></td>  -->
+            <!-- <td>< ?=mb_substr($row['text'],0,20);?></td>  -->
             <!-- 並將上述套上span賦予class 並在句尾加上 ... 如下述 -->
             <td>
-                <span class="summary"><?=mb_substr($row['txt'],0,20);?>...</span>
+                <span class="summary"><?=mb_substr($row['text'],0,20);?>...</span>
                 <!-- 複製上述 改成下述 用於置入並隱藏全文 -->
-                <span class="full" style="display:none"><?=nl2br($row['txt']);?>...</span>
+                <span class="full" style="display:none"><?=nl2br($row['text']);?>...</span>
             </td>
         </tr>
 

@@ -55,14 +55,38 @@
         <tr>
             <td class="title clo"><?=$row['title'];?></td>
             <td>
-                <span class="summary"><?=mb_substr($row['txt'],0,20);?>...</span>
-                <!-- <span class="full" style="display:none">< ?=nl2br($row['txt']);?>...</span> -->
-                <!-- 把上述的< ?=nl2br($row['txt']);?> 剪進下面的modal內, 剩下的刪除 -->
+                <span class="summary"><?=mb_substr($row['text'],0,20);?>...</span>
+
+                <!-- <span class="full" style="display:none">< ?=nl2br($row['text']);?>...</span> -->
+                <!-- 把上述的< ?=nl2br($row['text']);?> 剪進下面的modal內, 剩下的刪除 -->
                 <!-- 上面更改後貼到這裡 -->
                 <div class="modal">
-                    <?=nl2br($row['txt']);?>
+                    <?=nl2br($row['text']);?>
                 </div>
                 <!-- ----------------- -->
+                <!-- 新增案讚功能 -->
+            <td>
+                <sapn><?=$row['good'];?></sapn>個人說<img src="./icon/02B03.jpg" style="width:25px">
+                <?php
+                if(isset($_SESSION['user'])){
+                    if($Log->math('count','id',['news'=>$row['id'],'user'=>$_SESSION['user']])){
+                ?>
+                <a class="great" href="#" data-id="<?=$row['id'];?>">收回讚</a>
+                <?php
+                }else{
+                ?>
+                <a class="great" href="#" data-id="<?=$row['id'];?>">讚</a>
+                <?php
+                }
+                }
+                ?>
+            </td>
+            <!-- ----------------- -->
+                
+
+                
+                
+                
             </td>
         </tr>
 
@@ -111,4 +135,22 @@
             $(this).next().children('.modal').hide()
         }
     )
+
+
+    // 按讚功能
+    $(".great").on("click",function(){
+    let type=$(this).text()
+    let num=parseInt($(this).siblings('span').text())
+
+    let id=$(this).data('id')
+    $.post("./api/good.php",{id,type},()=>{
+        if(type==='讚'){
+          $(this).text('收回讚')
+          $(this).siblings('span').text(num+1)
+        }else{
+          $(this).text('讚')
+          $(this).siblings('span').text(num-1)
+        }
+      })
+    })
 </script>

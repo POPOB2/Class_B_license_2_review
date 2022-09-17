@@ -2,12 +2,12 @@
 session_start();
 date_default_timezone_set('Asia/Taipei');
 class DB{
-    // protected $dsn='mysql:host=localhost; charset=utf8; dbname=class_b_2';
-    // protected $user='root';
-    // protected $pw='';
-    protected $dsn='mysql:host=localhost; charset=utf8; dbname=s1110203';
-    protected $user='s1110203';
-    protected $pw='s1110203';
+    protected $dsn='mysql:host=localhost; charset=utf8; dbname=class_b_2';
+    protected $user='root';
+    protected $pw='';
+    // protected $dsn='mysql:host=localhost; charset=utf8; dbname=s1110203';
+    // protected $user='s1110203';
+    // protected $pw='s1110203';
     public $table;
     protected $pdo;
 
@@ -184,16 +184,18 @@ function dd($array){
 
 // ------------------------------------------------------DB------------------------------------------------------
 
-// $Total=new DB('total'); // 計算拜訪總人數的資料表
-// $User=new DB('user');
-// $News=new DB('news');
-// $Que=new DB('que');
+$Total=new DB('total'); // 計算拜訪總人數的資料表
+$User=new DB('user');
+$News=new DB('news');
+$Que=new DB('que');
+$Log=new DB('log');
 
 // ---------------------------------------------
-$Total=new DB('classB_2_total');
-$User=new DB('classB_2_user');
-$News=new DB('classB_2_news');
-$Que=new DB('classB_2_que');
+// $Total=new DB('classB_2_total');
+// $User=new DB('classB_2_user');
+// $News=new DB('classB_2_news');
+// $Que=new DB('classB_2_que');
+// $Log=new DB('classB_2_log');
 
 // 判斷有無session
 if(!isset($_SESSION['total'])){ // 若無
